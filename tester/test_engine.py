@@ -103,7 +103,7 @@ class TestEngine:
         logger.info(f"Summary written to {self._summary_file_path}")
 
 
-    def run_tests(self):
+    def run_tests(self)->TestResult:
         logger.info("Running tests...")
 
         for run_idx in range(1, self._runs + 1):
@@ -130,11 +130,12 @@ class TestEngine:
         # log the remaining processed turns and final statistics
         logger.info(f"Processed (all) {total_turns} turns")
         # generate summary statistics and save alongside raw results
-        summary = self.prepare_results()
+        summary = self._prepare_results()
         self._save_results_on_file(summary)
+        return summary
         
 
-    def prepare_results(self)-> TestResult:
+    def _prepare_results(self)-> TestResult:
         ''' Processes the collected results to compute summary statistics such as total tests executed, intent accuracy, 
             response pass rate, average latency, and identifies tests that failed in a majority of runs. Returns a TestResult 
             object containing these aggregated metrics.

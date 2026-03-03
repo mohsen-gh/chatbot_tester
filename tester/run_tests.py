@@ -32,7 +32,8 @@ if __name__ == "__main__":
         summary_file_path=args.output,
         fuzzy_threshold=args.fuzzy_thresh
     )
-    test_engine.run_tests()
+    results = test_engine.run_tests()
+    logger.info(results)
     
     
     
