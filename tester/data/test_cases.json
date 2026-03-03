@@ -1,0 +1,284 @@
+{
+  "test_cases": [
+    {
+      "test_id": "test_001_programs_admission",
+      "conversation": [
+        {
+          "message": "Hi! What study programs do you offer?",
+          "expected_intents": ["programs_overview"],
+          "expected_keywords": ["programs", "degrees", "Bachelor", "Master"]
+        },
+        {
+          "message": "Do you have a Computer Science bachelor's program?",
+          "expected_intents": ["program_availability_check"],
+          "expected_keywords": ["Computer Science", "Bachelor", "BSc"]
+        },
+        {
+          "message": "What are the admission requirements?",
+          "expected_intents": ["admission_requirements"],
+          "expected_keywords": ["requirements", "documents", "deadline"]
+        },
+        {
+          "message": "Is English proficiency required?",
+          "expected_intents": ["language_requirements"],
+          "expected_keywords": ["English", "IELTS", "TOEFL", "requirements"]
+        },
+        {
+          "message": "When is the application deadline for winter semester?",
+          "expected_intents": ["application_deadlines"],
+          "expected_keywords": ["deadline", "winter", "semester", "date"]
+        }
+      ]
+    },
+    {
+      "test_id": "test_002_tuition_fees_scholarships",
+      "conversation": [
+        {
+          "message": "How much is the tuition fee?",
+          "expected_intents": ["tuition_fees_info"],
+          "expected_keywords": ["tuition", "fees", "cost"]
+        },
+        {
+          "message": "Are there different fees for international students?",
+          "expected_intents": ["tuition_fees_international"],
+          "expected_keywords": ["international", "fees", "EU", "non-EU"]
+        },
+        {
+          "message": "Do you offer scholarships?",
+          "expected_intents": ["scholarship_overview"],
+          "expected_keywords": ["scholarship", "funding", "financial aid"]
+        },
+        {
+          "message": "How can I apply for a scholarship?",
+          "expected_intents": ["scholarship_application_process"],
+          "expected_keywords": ["apply", "requirements", "documents"]
+        }
+      ]
+    },
+    {
+      "test_id": "test_003_campus_tour_location",
+      "conversation": [
+        {
+          "message": "Where is the university located?",
+          "expected_intents": ["campus_location"],
+          "expected_keywords": ["location", "campus", "address"]
+        },
+        {
+          "message": "How can I get there by public transport?",
+          "expected_intents": ["transportation_info"],
+          "expected_keywords": ["public transport", "bus", "train", "tram"]
+        },
+        {
+          "message": "Do you offer campus tours?",
+          "expected_intents": ["campus_tour_info"],
+          "expected_keywords": ["tour", "visit", "campus"]
+        },
+        {
+          "message": "Can I attend an open day event?",
+          "expected_intents": ["open_day_info"],
+          "expected_keywords": ["open day", "event", "registration"]
+        },
+        {
+          "message": "What buildings should I visit for admissions questions?",
+          "expected_intents": ["admissions_office_location"],
+          "expected_keywords": ["admissions", "office", "building"]
+        }
+      ]
+    },
+    {
+      "test_id": "test_004_course_catalog_curriculum",
+      "conversation": [
+        {
+          "message": "Where can I see the course catalog for the Master's programs?",
+          "expected_intents": ["course_catalog_request"],
+          "expected_keywords": ["course catalog", "modules", "Master"]
+        },
+        {
+          "message": "What subjects are covered in Data Science?",
+          "expected_intents": ["program_curriculum_details"],
+          "expected_keywords": ["curriculum", "modules", "Data Science"]
+        },
+        {
+          "message": "Is there a thesis project in the final semester?",
+          "expected_intents": ["thesis_requirement_info"],
+          "expected_keywords": ["thesis", "project", "final semester"]
+        }
+      ]
+    },
+    {
+      "test_id": "test_005_application_portal_documents",
+      "conversation": [
+        {
+          "message": "How do I apply to the university?",
+          "expected_intents": ["application_process_overview"],
+          "expected_keywords": ["apply", "application portal", "steps"]
+        },
+        {
+          "message": "Which documents do I need to submit?",
+          "expected_intents": ["required_documents"],
+          "expected_keywords": ["documents", "transcript", "CV", "passport"]
+        },
+        {
+          "message": "Can I upload documents after submitting my application?",
+          "expected_intents": ["application_document_update_policy"],
+          "expected_keywords": ["upload", "after submission", "deadline"]
+        },
+        {
+          "message": "I made a mistake in my application—can I edit it?",
+          "expected_intents": ["application_editing_help"],
+          "expected_keywords": ["edit", "change", "support"]
+        },
+        {
+          "message": "I can't log in to the application portal. What should I do?",
+          "expected_intents": ["application_portal_login_issue"],
+          "expected_keywords": ["login", "portal", "reset", "support"]
+        }
+      ]
+    },
+    {
+      "test_id": "test_006_international_students_visa",
+      "conversation": [
+        {
+          "message": "I'm an international student. Do you support visa applications?",
+          "expected_intents": ["visa_support_info"],
+          "expected_keywords": ["visa", "support", "documents"]
+        },
+        {
+          "message": "Can you provide an admission letter for my visa?",
+          "expected_intents": ["admission_letter_request"],
+          "expected_keywords": ["admission letter", "official", "visa"]
+        },
+        {
+          "message": "Do you have guidance about residence permits after arrival?",
+          "expected_intents": ["residence_permit_guidance"],
+          "expected_keywords": ["residence permit", "arrival", "appointment"]
+        },
+        {
+          "message": "Is there an international office I can contact?",
+          "expected_intents": ["international_office_contact"],
+          "expected_keywords": ["international office", "contact", "email"]
+        }
+      ]
+    },
+    {
+      "test_id": "test_007_housing_dorms",
+      "conversation": [
+        {
+          "message": "Do you have student dormitories?",
+          "expected_intents": ["student_housing_overview"],
+          "expected_keywords": ["housing", "dorm", "accommodation"]
+        },
+        {
+          "message": "How can I apply for housing?",
+          "expected_intents": ["housing_application_process"],
+          "expected_keywords": ["apply", "housing", "waitlist"]
+        },
+        {
+          "message": "What is the average rent for a room?",
+          "expected_intents": ["housing_cost_info"],
+          "expected_keywords": ["rent", "cost", "per month"]
+        },
+        {
+          "message": "Are there options for short-term accommodation?",
+          "expected_intents": ["short_term_housing_info"],
+          "expected_keywords": ["short-term", "temporary", "options"]
+        },
+        {
+          "message": "Is housing guaranteed for first-year students?",
+          "expected_intents": ["housing_guarantee_policy"],
+          "expected_keywords": ["guaranteed", "first-year", "availability"]
+        }
+      ]
+    },
+    {
+      "test_id": "test_008_registration_enrollment",
+      "conversation": [
+        {
+          "message": "I got admitted. What are the next steps to enroll?",
+          "expected_intents": ["enrollment_steps"],
+          "expected_keywords": ["enroll", "steps", "deadline"]
+        },
+        {
+          "message": "How do I pay the semester contribution?",
+          "expected_intents": ["semester_fee_payment"],
+          "expected_keywords": ["semester contribution", "payment", "bank transfer"]
+        },
+        {
+          "message": "When do I receive my student ID?",
+          "expected_intents": ["student_id_info"],
+          "expected_keywords": ["student ID", "card", "issued"]
+        },
+        {
+          "message": "How do I register for courses?",
+          "expected_intents": ["course_registration_info"],
+          "expected_keywords": ["register", "courses", "portal"]
+        }
+      ]
+    },
+    {
+      "test_id": "test_009_exams_grading",
+      "conversation": [
+        {
+          "message": "How do exams work at your university?",
+          "expected_intents": ["exams_overview"],
+          "expected_keywords": ["exams", "assessment", "schedule"]
+        },
+        {
+          "message": "Where can I find the exam timetable?",
+          "expected_intents": ["exam_timetable_request"],
+          "expected_keywords": ["exam", "timetable", "schedule"]
+        },
+        {
+          "message": "What is the grading scale?",
+          "expected_intents": ["grading_scale_info"],
+          "expected_keywords": ["grading", "scale", "points", "GPA"]
+        },
+        {
+          "message": "Can I retake an exam if I fail?",
+          "expected_intents": ["exam_retake_policy"],
+          "expected_keywords": ["retake", "fail", "attempts"]
+        },
+        {
+          "message": "How do I request an exam review?",
+          "expected_intents": ["exam_review_request"],
+          "expected_keywords": ["review", "appeal", "inspection"]
+        }
+      ]
+    },
+    {
+      "test_id": "test_010_student_services_library",
+      "conversation": [
+        {
+          "message": "What student services do you provide?",
+          "expected_intents": ["student_services_overview"],
+          "expected_keywords": ["services", "counseling", "career", "support"]
+        },
+        {
+          "message": "Do you have career support for internships?",
+          "expected_intents": ["career_services_internships"],
+          "expected_keywords": ["career", "internship", "CV", "workshop"]
+        },
+        {
+          "message": "How can I access the library resources online?",
+          "expected_intents": ["library_online_access"],
+          "expected_keywords": ["library", "online", "database", "login"]
+        },
+        {
+          "message": "What are the library opening hours?",
+          "expected_intents": ["library_hours"],
+          "expected_keywords": ["library", "hours", "open"]
+        },
+        {
+          "message": "Can students get mental health counseling?",
+          "expected_intents": ["counseling_services_info"],
+          "expected_keywords": ["counseling", "mental health", "appointment"]
+        },
+        {
+          "message": "Thanks, that's helpful!",
+          "expected_intents": ["thanks", "conversation_end"],
+          "expected_keywords": ["welcome", "glad", "help"]
+        }
+      ]
+    }
+  ]
+}
