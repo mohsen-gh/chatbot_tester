@@ -13,8 +13,7 @@ class ExactIntentMatcher:
     """
     Intent matcher implementation.
     """
-    @staticmethod
-    def _normalize(s: str | None) -> str:
+    def _normalize(self, s: str | None) -> str:
         """
         Normalize an intent string by standardizing its format.
         
@@ -43,8 +42,7 @@ class ExactIntentMatcher:
         s = re.sub(r"_+", "_", s)
         return s
 
-    @classmethod
-    def match(cls, intent: str | None, expected_intents: Iterable[str] | None) -> bool:
+    def match(self, intent: str | None, expected_intents: Iterable[str] | None) -> bool:
         """
         Validate if a given intent matches any of the expected intents.
         Normalizes both the input intent and expected intents before comparison
@@ -68,6 +66,6 @@ class ExactIntentMatcher:
         if not expected_intents:
             return False
 
-        intent_n = cls._normalize(intent)
-        expected_n = {cls._normalize(e) for e in expected_intents}
+        intent_n = self._normalize(intent)
+        expected_n = {self._normalize(e) for e in expected_intents}
         return intent_n in expected_n
