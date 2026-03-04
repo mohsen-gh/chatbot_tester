@@ -11,9 +11,23 @@ logger = log_manager.get_logger(__name__)
 
 def stream_json_file(filepath: str, prefix: str = "test_cases.item") -> Iterator[TestCase]:
     """
-    Stream JSON objects from a file and yield them as TestCase instances.
-    This function reads a JSON file and iterates over items matching the specified
-    prefix path, converting each item into a TestCase object.
+    Streams JSON objects from a file and yields them as TestCase instances.
+
+    Args:
+        filepath (str): The path to the JSON file containing test cases.
+        prefix (str, optional): The ijson prefix path to iterate over items. Defaults to "test_cases.item".
+
+    Yields:
+        TestCase: TestCase objects parsed from each item in the JSON file.
+
+    Raises:
+        Logs and continues on Pydantic validation or parsing errors for individual items.
+        Logs and returns if there are JSON file errors (structure, not found, I/O).
+
+    Notes:
+        - Uses incremental parsing for large files (via ijson).
+        - Each yielded object is validated and loaded as a TestCase.
+        - Logs detailed errors for invalid items or file issues without stopping iteration.
     """
     try:
         with open(filepath, "rb") as f:
@@ -44,8 +58,25 @@ def stream_json_file(filepath: str, prefix: str = "test_cases.item") -> Iterator
 
 def append_to_jsonl(filepath: str, data: TurnResult) -> bool:
     """
-    Appends a single dictionary as a JSON string to a file, forming a JSON Lines (JSONL) file.
-    Returns True if successful, False otherwise.
+    Appends a single TurnResult instance as a JSON string to a file, creating or continuing a JSON Lines (JSONL) file.
+
+    Args:
+        filepath (str): The path to the JSONL file where the TurnResult will be appended.
+        data (TurnResult): The TurnResult object to serialize and write as a single JSON line.
+
+    Returns:
+        bool: True if the data is successfully serialized and written to the file; False otherwise.
+
+    Notes:
+        - Each call writes one turn result as a single line (JSON object) to the file.
+        - The function handles serialization using the Pydantic `model_dump()` method of TurnResult.
+        - Returns False and logs an error in case of serialization, file system, or IO errors.
+        - If the file or its parent directory does not exist, an error is logged and False is returned.
+
+    Example:
+        >>> success = append_to_jsonl("tester/data/report_raw.jsonl", turn_result)
+        >>> if success:
+        ...     print("Result appended to JSONL file.")
     """
     try:
         # Open in append mode ('a') so we don't overwrite previous lines

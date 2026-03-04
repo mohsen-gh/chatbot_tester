@@ -24,22 +24,25 @@ class TestEngine:
     Attributes:
         _test_case_json_file_path (str): Path to the JSON file containing test cases.
         _runs (int): Number of times to run each test case.
-        _chat_service (ChastService): Service client for communicating with the chat API.
-        _output_report_file_path (str): Path where the summary report will be written.
-        _results_map (dict): Dictionary mapping test_id to TestCaseMultiRunResult objects.
+        _chat_client (ChatClient): Client for communicating with the chat API.
+        _fuzzy_threshold (float): Threshold for the fuzzy matcher used in response validation.
+        _summary_file_path (str): Path where the summary report will be written.
         _raw_results_path (str): Path where raw results are written.
-        _response_validator (ResponseValidator): Validator for response matching with semantic similarity.
+        _results_list (list[TurnResult]): List storing results for each turn across all runs.
+        _response_validator (ResponseMatcher): Validator for response matching with semantic similarity.
     Methods:
-        __init__(test_case_json_file_path, runs, chat_api_base_url, output_report_file_path):
+        __init__(test_case_json_file_path, runs, summary_file_path, chat_client, fuzzy_threshold=0.6):
             Initializes the TestEngine with configuration parameters and dependencies.
+        _run_single_turn(query, test_case_id, run_idx) -> TurnResult:
+            Executes a single turn of the conversation by sending the user query to the chat service,
+            collecting responses, matching intent, validating response, and measuring latency.
         run_tests():
-            Executes all test cases for the specified number of runs, collecting results
-            for each query including intent matching, response validation, and latency metrics.
-            Writes raw results to a JSON file and generates a summary report.
+            Executes all test cases for the specified number of runs, collects results including
+            intent matching, response validation, and latency metrics, writes raw results to a
+            JSONL file and generates a summary report.
         get_results() -> TestResult:
             Processes collected results and returns aggregated statistics including total tests,
-            intent accuracy, response pass rate, average latency, and IDs of tests that failed
-            in a majority of runs.
+            intent accuracy, response pass rate, average latency, and summary of failed test cases.
     """
     
     def __init__(self, 

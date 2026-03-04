@@ -6,6 +6,12 @@ logger = log_manager.get_logger(__name__)
 
 class ChatClient:
     def __init__(self, base_url: str):
+        """
+        Initializes the ChatClient with the given base URL for the chat API.
+
+        Args:
+            base_url (str): The base URL for the chat API endpoint (e.g., http://localhost:8080).
+        """
         self.api_url = base_url + "/chat"
     
     def _post_call_sync(self, data) -> UserResponse:
