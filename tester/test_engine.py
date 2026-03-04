@@ -159,7 +159,7 @@ class TestEngine:
         # track tests that fail in a majority of runs
         failed_ids: set[str] = set()
         test_cases: set[str] = set()
-        failed_tests: defaultdict[str, list] = defaultdict(set)
+        failed_tests: dict[str, set[int]] = defaultdict(set)
 
         for turn_result in self._results_list:
 
@@ -184,7 +184,6 @@ class TestEngine:
                     server_error_count += 1
 
         # determine majority: more than half of executed runs must have failure
-        print(failed_tests)
         for test_case_id, failed_runs_list in failed_tests.items():
             if len(failed_runs_list) > self._runs / 2:
                 failed_ids.add(test_case_id)
