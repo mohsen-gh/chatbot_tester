@@ -1,8 +1,18 @@
 import re
-from typing import Iterable
+from typing import Iterable, Protocol
 
 
-class IntentMatcher:
+class IntentMatcher(Protocol):
+    """
+    Protocol for intent matchers.
+    """
+    def match(self, intent: str | None, expected_intents: Iterable[str] | None) -> bool:
+        raise NotImplementedError("Subclasses must implement this method")
+
+class ExactIntentMatcher:
+    """
+    Intent matcher implementation.
+    """
     @staticmethod
     def _normalize(s: str | None) -> str:
         """

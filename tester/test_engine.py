@@ -11,7 +11,7 @@ from schemas import (
 )
 from utils.chat_client import ChatClient
 from utils.json_utils import append_to_jsonl, stream_json_file, write_json_file
-from utils.text.intent_matcher import IntentMatcher as intent_matcher
+from utils.text.intent_matcher import IntentMatcher
 from utils.text.response_matcher import ResponseMatcher
 
 logger = log_manager.get_logger(__name__)
@@ -21,17 +21,19 @@ class TestEngine:
     TestEngine - A test execution engine for chatbot API testing.
     This class manages the execution of multiple test runs against a chat service,
     collects results, and generates summary reports with statistics.
+
     Attributes:
         _test_case_json_file_path (str): Path to the JSON file containing test cases.
         _runs (int): Number of times to run each test case.
         _chat_client (ChatClient): Client for communicating with the chat API.
-        _fuzzy_threshold (float): Threshold for the fuzzy matcher used in response validation.
+        _intent_matcher (IntentMatcher): Intent matcher used for validating intents.
+        _response_matcher (ResponseMatcher): Validator for response matching.
         _summary_file_path (str): Path where the summary report will be written.
         _raw_results_path (str): Path where raw results are written.
         _results_list (list[TurnResult]): List storing results for each turn across all runs.
-        _response_validator (ResponseMatcher): Validator for response matching with semantic similarity.
+
     Methods:
-        __init__(test_case_json_file_path, runs, summary_file_path, chat_client, fuzzy_threshold=0.6):
+        __init__(test_case_json_file_path, runs, summary_file_path, chat_client, intent_matcher, response_matcher):
             Initializes the TestEngine with configuration parameters and dependencies.
         _run_single_turn(query, test_case_id, run_idx) -> TurnResult:
             Executes a single turn of the conversation by sending the user query to the chat service,
@@ -50,12 +52,14 @@ class TestEngine:
                  runs: int, 
                  summary_file_path: str,
                  chat_client: ChatClient,
-                 fuzzy_threshold: float = 0.6):
+                 intent_matcher: IntentMatcher,
+                 response_matcher: ResponseMatcher):
         
         self._test_case_json_file_path = test_case_json_file_path
         self._runs = runs
         self._chat_client = chat_client
-        self._fuzzy_threshold = fuzzy_threshold
+        self._intent_matcher = intent_matcher
+        self._response_matcher = response_matcher
         self._summary_file_path = summary_file_path
         
         import os
@@ -67,7 +71,6 @@ class TestEngine:
             os.remove(self._raw_results_path)
 
         self._results_list: list[TurnResult] = [] 
-        self._response_validator = ResponseMatcher(fuzzy_threshold=self._fuzzy_threshold) # can be parameterized as needed
 
     def _run_single_turn(self, query: TestQuery, test_case_id:str, run_idx: int) -> TurnResult:
         ''' Executes a single turn of the conversation by sending the user query to the chat service,'''
@@ -82,8 +85,8 @@ class TestEngine:
             resp:UserResponse = self._chat_client.chat_sync(user_query)
             turn_result.response = resp
 
-            turn_result.intent_match = intent_matcher.match(resp.intent, query.expected_intents)
-            turn_result.response_match = self._response_validator.match(resp.response, query.expected_keywords)
+            turn_result.intent_match = self._intent_matcher.match(resp.intent, query.expected_intents)
+            turn_result.response_match = self._response_matcher.match(resp.response, query.expected_keywords)
 
         except Exception as e:
             error = str(e)

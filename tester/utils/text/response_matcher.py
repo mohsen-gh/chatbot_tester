@@ -1,12 +1,23 @@
 # import re
 import difflib
-from typing import List
+from typing import List, Protocol
 
 import utils.log_manager as log_manager
 
 logger = log_manager.get_logger(__name__)
 
-class FuzzyResponseMatcher:
+
+class ResponseMatcher(Protocol):
+    """
+    Protocol for response matchers.
+    """
+    def match(self, response: str, expected_keywords: List[str]) -> bool:
+        raise NotImplementedError("Subclasses must implement this method")
+
+class FuzzyMatcher:
+    """
+    Fuzzy response matcher implementation.
+    """
     def __init__(self, fuzzy_threshold: float = 0.6):
         # 0.6 means 60% of the characters need to match (good for typos)
         self.fuzzy_threshold = fuzzy_threshold
@@ -29,10 +40,10 @@ class FuzzyResponseMatcher:
         return False
     
 
-class ResponseMatcher:
+class DynamicResponseMatcher:
     def __init__(self, fuzzy_threshold: float = 0.5):
         self._semantic_threshold = fuzzy_threshold
-        self._fuzzy_matcher = FuzzyResponseMatcher(fuzzy_threshold=fuzzy_threshold)
+        self._fuzzy_matcher = FuzzyMatcher(fuzzy_threshold=fuzzy_threshold)
 
     def match(self, response: str, expected_keywords: List[str]) -> bool:
         # 1- direct keyword match

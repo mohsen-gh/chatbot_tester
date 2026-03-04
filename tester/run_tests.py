@@ -4,6 +4,8 @@ import logging
 import utils.log_manager as log_manager
 from test_engine import TestEngine
 from utils.chat_client import ChatClient
+from utils.text.intent_matcher import ExactIntentMatcher
+from utils.text.response_matcher import DynamicResponseMatcher
 
 if __name__ == "__main__":
 
@@ -30,7 +32,8 @@ if __name__ == "__main__":
         runs=args.runs, 
         chat_client=ChatClient(base_url=args.base_url),
         summary_file_path=args.output,
-        fuzzy_threshold=args.fuzzy_thresh
+        intent_matcher=ExactIntentMatcher(),
+        response_matcher=DynamicResponseMatcher(fuzzy_threshold=args.fuzzy_thresh)
     )
     results = test_engine.run_tests()
     logger.info(results)
