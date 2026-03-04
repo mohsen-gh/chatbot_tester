@@ -1,7 +1,7 @@
 # Chatbot Tester (Compact Overview)
 
 Lightweight framework for evaluating a chatbot API against conversation tests. It
-checks intent accuracy, keyword/semantic matches, and latency, producing both raw
+checks intent accuracy, keyword/fuzzy matches, and latency, producing both raw
 and summary reports. The included Dockerized mock server simulates responses and
 errors.
 
@@ -84,12 +84,12 @@ Key responsibilities include:
 **Schema**
 - `schemas.py` – Pydantic models for requests, responses, input json data and json results and report
 
-**Utilities**
-- `chat_service.py` – Synchronous HTTP client; posts queries to `/chat` endpoint
-- `json_utils.py` – Streaming JSON reader (ijson) and serializer for large datasets
+**Utilities** (`utils/`)
+- `chat_client.py` – Synchronous HTTP client; posts queries to `/chat` endpoint
+- `json_utils.py` – Streaming JSON reader/appender (ijson) and  serializer for large datasets
 - `log_manager.py` – Setting up logger for the app
 
-**Smart Matching** (`text_tools/`)
+**Smart Matching** (`utils/text/`)
 - `intent_matcher.py` – Normalizes intent strings (case, hyphens, spaces); matches against expected intents
 - `response_matcher.py` – Dual-mode validation: direct keyword match + fuzzy-matching fallback with adjustable threshold.
 
@@ -103,8 +103,8 @@ Key responsibilities include:
 
 - Chat API POST `/chat` with `user_id` and `message`; returns
   `{response,intent,confidence}`.
-- Tests defined in `tester/test_cases.json` as `{test_id,conversation}`.
-- Intent matching normalized but exact; keywords matched case-insensitive with fallback to (TFIDF) semantic matching.
+- Tests defined in `tester/data/test_cases.json` as `{test_id,conversation}`.
+- Intent matching normalized but exact; keywords matched case-insensitive with fallback to Fuzzy matching.
 - Latency Calculation: Average latency is calculated exclusively using successful API responses. Timeouts and 500 Internal Server Errors are treated as failed test turns (impacting the pass rate metrics) rather than skewing the latency calculation with artificial 60-second ceilings."
 - The input dataset could be huge. The framework supports streaming at both ends: **streaming JSON input** for loading test cases and **streaming raw output** for writing results. Rather than loading entire files into memory, it consumes input incrementally (record by record) and persists output incrementally (turn by turn).
 
